@@ -7,14 +7,25 @@ public class isTouching : MonoBehaviour
 
     public GameObject card;
 
+    
     public bool touch;
     private void Start()
     {
         touch = false;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+ 
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        touch = true;
-        card = collision.gameObject;
+        if (collision != null)
+        {
+            touch = true;
+            card = collision.gameObject;
+        } 
+        
+        
+    }
+    private void Update()
+    {
+        
     }
 }

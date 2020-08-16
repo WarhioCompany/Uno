@@ -45,7 +45,7 @@ public class midCard : MonoBehaviour
             g = Instantiate(blue[card.value], Vector2.zero, Quaternion.identity);
         }
 
-        
+         
         card.gO = g;
         g.AddComponent<iAmACard>().c = card;
 

@@ -31,23 +31,7 @@ public class myCards : MonoBehaviour
         {
             Card c = new Card();
 
-            int isSpecial = Random.Range(0,100);
-
-            if (isSpecial >= 51)
-                c.isSpecial = true;
-            else
-                c.isSpecial = false;
-
-
-            if (c.isSpecial)
-            {
-                c.value =10 + Random.Range(0, 4);
-                
-            }
-            else
-            {
-               c.value = Random.Range(0, 9);
-            }
+            c.value = Random.Range(0, 14);
 
 
             if (c.value > 12)
@@ -68,8 +52,7 @@ public class myCards : MonoBehaviour
         float dis = -res.x + adder + size.x / 2;
         foreach(Card c in cards)
         {
-            //Debug.Log(new Vector2(dis, res.y + (1 / -res.y * yMulti)));
-            Debug.Log(" 1 / " + res.y + " * " + yMulti);
+            
             if(c.color == (int)Card.colors.Red)
             {
                 card = Instantiate(red[c.value], new Vector2(dis, res.y + (1 / -res.y * yMulti)), Quaternion.identity);

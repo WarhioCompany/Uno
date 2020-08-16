@@ -8,11 +8,27 @@ public class cardInteract : MonoBehaviour
     public GameObject touch;
     public bool interact;
 
-    private bool move;
+    public GameObject mid;
+
+    public bool move;
 
     public float speed;
 
     private GameObject t;
+
+    private GameObject cardTouch;
+
+    private Card midC, cardTouchC;
+
+    public List<GameObject> midCards;
+
+    private void Start()
+    {
+        mid = GetComponent<midCard>().card.gO;
+        midC = mid.GetComponent<iAmACard>().c;
+
+        
+    }
 
     private void Update()
     {
@@ -24,57 +40,51 @@ public class cardInteract : MonoBehaviour
             interact = t.GetComponent<isTouching>().touch;
         else
             interact = false;
-        if (interact && t.GetComponent<isTouching>().card != null)
+        if (interact && !move)
         {
-            GameObject card = t.GetComponent<isTouching>().card;
+            cardTouch = t.GetComponent<isTouching>().card;
+            cardTouchC = cardTouch.GetComponent<iAmACard>().c;
 
-            
-            Card c = card.GetComponent<iAmACard>().c;
-            
-            Card midCard = GetComponent<midCard>().card.gO.GetComponent<iAmACard>().c;
-            
-            if(c.value == midCard.value || c.color == midCard.color || c.color == (int)Card.colors.Black)
+            //Debug.Log("value: " + midC.value + " " + cardTouchC.value + " (" + (midC.value == cardTouchC.value) + ")" + "\n\tcolor: " + midC.color + " " + cardTouchC.color + " (" + (midC.color == cardTouchC.color) + ")");
+
+            //check
+            if((cardTouchC.value == midC.value || cardTouchC.color == midC.color || cardTouchC.color == (int)Card.colors.Black))
             {
-                //GetComponent<midCard>().Spawn(c);
-                //Destroy(card);
+                Debug.Log("Yes!");
+                move = true;
 
                 
 
-                move = true;
+                mid = cardTouch;
+                midC.value = cardTouchC.value;
+                midC.color = cardTouchC.color;
 
-                //Destroy(midCard.gO);
-            }
-            else
-            {
-                Debug.Log("cant");
-            }
+                midCards.Add(mid);
 
-            if (move)
-            {
-                card.transform.position = Vector2.MoveTowards(card.transform.position, Vector2.zero, speed * Time.deltaTime);
-                if ((Vector2)card.transform.position == Vector2.zero)
+                for (int i = 0; i < midCards.Count; i++)
                 {
-                    move = false;
-                    Destroy(midCard.gO);
-                    
+                    midCards[i].GetComponent<SpriteRenderer>().sortingOrder = i + 1;
                 }
+
             }
             else
             {
-                GetComponent<midCard>().card.color = c.color;
-                GetComponent<midCard>().card.value = c.value;
+                Debug.Log("No!");
+                GameObject toDestroy = t;
+                Destroy(toDestroy);
+            }
+        }
+        else if (move)
+        {
+            cardTouch.transform.position = Vector2.MoveTowards(cardTouch.transform.position, Vector2.zero, speed * Time.deltaTime);
+            if ((Vector2)cardTouch.transform.position == Vector2.zero)
+            {
+                move = false;
 
-                //GetComponent<midCard>().card
+                
 
-                GetComponent<midCard>().card.gO = card;
-
-
-
-                Debug.Log(GetComponent<midCard>().card.gO);
-
-                interact = false;
-                Destroy(t);
-                t = null;
+                GameObject toDestroy = t;
+                Destroy(toDestroy);
             }
         }
     }

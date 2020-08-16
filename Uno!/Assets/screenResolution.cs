@@ -11,7 +11,7 @@ public class screenResolution : MonoBehaviour
     void Awake()
     {
         res = Camera.main.ScreenToWorldPoint(Screen.width * Vector2.right);
-        Debug.Log(res);
+        //Debug.Log(res);
     }
 
     // Update is called once per frame
