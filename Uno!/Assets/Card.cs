@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Card
 {
-    
+    public bool isMid;
 
     public enum colors{Red, Yellow, Green, Blue, Black}
     public enum specials { plus2 = 10, res, skip, plus4, colorMatch}

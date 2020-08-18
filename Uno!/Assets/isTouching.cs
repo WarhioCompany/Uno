@@ -7,11 +7,13 @@ public class isTouching : MonoBehaviour
 
     public GameObject card;
 
+    private float cd = 0.25f;
     
     public bool touch;
     private void Start()
     {
         touch = false;
+
     }
  
     private void OnTriggerStay2D(Collider2D collision)
@@ -26,6 +28,10 @@ public class isTouching : MonoBehaviour
     }
     private void Update()
     {
-        
+        cd -= Time.deltaTime;
+        if(cd <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

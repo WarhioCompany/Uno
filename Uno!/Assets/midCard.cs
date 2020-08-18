@@ -11,7 +11,7 @@ public class midCard : MonoBehaviour
     public GameObject player;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         myCards s = player.GetComponent<myCards>();
         red = s.red;
@@ -27,6 +27,22 @@ public class midCard : MonoBehaviour
 
         GameObject g;
 
+        Spawn(card, out g);
+
+        
+        card.gO = g;
+        g.AddComponent<iAmACard>().c = card;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Spawn(Card card, out GameObject g)
+    {
         if (card.color == (int)Card.colors.Red)
         {
             g = Instantiate(red[card.value], Vector2.zero, Quaternion.identity);
@@ -40,41 +56,9 @@ public class midCard : MonoBehaviour
         {
             g = Instantiate(green[card.value], Vector2.zero, Quaternion.identity);
         }
-        else 
+        else //if (card.color == (int)Card.colors.Blue)
         {
             g = Instantiate(blue[card.value], Vector2.zero, Quaternion.identity);
-        }
-
-         
-        card.gO = g;
-        g.AddComponent<iAmACard>().c = card;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Spawn(Card card)
-    {
-        if (card.color == (int)Card.colors.Red)
-        {
-            Instantiate(red[card.value], Vector2.zero, Quaternion.identity);
-
-        }
-        else if (card.color == (int)Card.colors.Yellow)
-        {
-            Instantiate(yellow[card.value], Vector2.zero, Quaternion.identity);
-        }
-        else if (card.color == (int)Card.colors.Green)
-        {
-            Instantiate(green[card.value], Vector2.zero, Quaternion.identity);
-        }
-        else if (card.color == (int)Card.colors.Blue)
-        {
-            Instantiate(blue[card.value], Vector2.zero, Quaternion.identity);
         }
     }
 }
