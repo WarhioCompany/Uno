@@ -58,43 +58,58 @@ public class myCards : MonoBehaviour
 
         Vector2 res = Camera.main.GetComponent<screenResolution>().res;
 
-        y = res.y + (1 / -res.y * yMulti);
 
-        size = blue[0].transform.localScale;
-        float dis = -res.x + adder + size.x / 2;
+
+        size = blue[0].GetComponent<RectTransform>().sizeDelta * 0.3f;
+
+        Debug.Log(size);
+
+        //y = res.y + (1 / -res.y * yMulti + size.y);
+        float dis = 0;// (Screen.width / -2) + (size.x / 2);//-res.x + adder + size.x / 2;
+
+        y = 0;// (-Screen.height / 2) + (size.y / 1.5f) + yMulti;
+        Debug.Log(-Screen.height + " / " + 2 + " + " + size.y + " / " + 1.5f + " + " + yMulti);
         foreach(Card c in cards)
         {
             
             if(c.color == (int)Card.colors.Red)
             {
-                card = Instantiate(red[c.value], new Vector2(dis, y), Quaternion.identity, p.transform);
+                card = Instantiate(red[c.value], new Vector2(dis, y), Quaternion.identity, p.GetComponent<RectTransform>());
 
             }
             else if (c.color == (int)Card.colors.Yellow)
             {
-                card = Instantiate(yellow[c.value], new Vector2(dis, y), Quaternion.identity, p.transform);
+                card = Instantiate(yellow[c.value], new Vector2(dis, y), Quaternion.identity, p.GetComponent<RectTransform>());
             }
             else if (c.color == (int)Card.colors.Green)
             {
-                card = Instantiate(green[c.value], new Vector2(dis, y), Quaternion.identity, p.transform);
+                card = Instantiate(green[c.value], new Vector2(dis, y), Quaternion.identity, p.GetComponent<RectTransform>() );
             }
             else if (c.color == (int)Card.colors.Blue)
             {
-                card = Instantiate(blue[c.value], new Vector2(dis, y), Quaternion.identity, p.transform);
+                card = Instantiate(blue[c.value], new Vector2(dis, y), Quaternion.identity, p.GetComponent<RectTransform>());
             }
             else 
             {
-                card = Instantiate(black[c.value - 13], new Vector2(dis, y), Quaternion.identity, p.transform);
+                card = Instantiate(black[c.value - 13], new Vector2(dis, y), Quaternion.identity, p.GetComponent<RectTransform>());
             }
-            card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            //card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
 
             card.AddComponent<iAmACard>().c = c;
+            card.GetComponent<iAmACard>().p = gameObject;
+
+            card.GetComponent<iAmACard>().index = visualCards.Count;
+            card.GetComponent<iAmACard>().speed = 7f;
+
+            card.GetComponent<RectTransform>().localPosition = new Vector2(dis, y);
+
+            card.GetComponent<RectTransform>().localScale = new Vector2(0.3f, 0.3f);
 
             c.gO = card;
 
-            dis += size.x * 2;
+            dis += size.x  * 1.5f;
 
-            visualCards.Add(card);
+            visualCards.Add(card );
         }
     }
     public void Spawn(Vector2 pos, out GameObject card, Card c)
@@ -105,42 +120,43 @@ public class myCards : MonoBehaviour
 
         Vector2 res = Camera.main.GetComponent<screenResolution>().res;
 
-        y = res.y + (1 / -res.y * yMulti);
+        y = 10;//res.y + (1 / -res.y * yMulti);
 
         size = blue[0].transform.localScale;
-        
-        
 
-            if (c.color == (int)Card.colors.Red)
-            {
-                card = Instantiate(red[c.value], pos, Quaternion.identity, p.transform);
+        pos = Camera.main.WorldToScreenPoint(pos);
 
-            }
-            else if (c.color == (int)Card.colors.Yellow)
-            {
-                card = Instantiate(yellow[c.value], pos, Quaternion.identity, p.transform);
-            }
-            else if (c.color == (int)Card.colors.Green)
-            {
-                card = Instantiate(green[c.value], pos, Quaternion.identity, p.transform);
-            }
-            else if (c.color == (int)Card.colors.Blue)
-            {
-                card = Instantiate(blue[c.value], pos, Quaternion.identity, p.transform);
-            }
-            else
-            {
-                card = Instantiate(black[c.value - 13], pos, Quaternion.identity, p.transform);
-            }
-        card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        if (c.color == (int)Card.colors.Red)
+        {
+            card = Instantiate(red[c.value], pos, Quaternion.identity, p.GetComponent<RectTransform>());
 
-            card.AddComponent<iAmACard>().c = c;
+        }
+        else if (c.color == (int)Card.colors.Yellow)
+        {
+            card = Instantiate(yellow[c.value], pos, Quaternion.identity, p.GetComponent<RectTransform>());
+        }
+        else if (c.color == (int)Card.colors.Green)
+        {
+            card = Instantiate(green[c.value], pos, Quaternion.identity, p.GetComponent<RectTransform>());
+        }
+        else if (c.color == (int)Card.colors.Blue)
+        {
+            card = Instantiate(blue[c.value], pos, Quaternion.identity, p.GetComponent<RectTransform>());
+        }
+        else
+        {
+            card = Instantiate(black[c.value - 13], pos, Quaternion.identity, p.GetComponent<RectTransform>());
+        }
+        //card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
 
-            
+        card.AddComponent<iAmACard>().c = c;
+        card.GetComponent<iAmACard>().p = gameObject;
 
-            
-            //visualCards.Add(card);
-        
+        card.GetComponent<RectTransform>().localPosition = pos;
+
+
+        //visualCards.Add(card);
+
     }
 
 }
