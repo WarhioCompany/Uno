@@ -29,7 +29,7 @@ public class PackScript : MonoBehaviour
 
         foreach(GameObject c in m.visualCards)
         {
-            if (c.transform.localPosition.x != dis)
+            if (c.GetComponent<RectTransform>().localPosition.x != dis)
             {
                 return dis;
             }
